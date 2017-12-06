@@ -5,22 +5,22 @@
 #ifndef __CHEBYSHEV_H__
 #define __CHEBYSHEV_H__
 
-double inline T0(const &x)
+double T0(const long x)
 {
     return 1.0;
 }
 
-double inline T1(const &x)
+double T1(const long x)
 {
     return x;
 }
 
-double inline T2(const &x)
+double T2(const long x)
 {
     return (2.0 * x * x) - 1.0;
 }
 
-double inline Tn(unsigned long n, const &x)
+double Tn(unsigned long n, const long x)
 {
     if (n == 0)
     {
@@ -39,9 +39,9 @@ double inline Tn(unsigned long n, const &x)
      * We use external memory to speed up the process
      */
     
-    double inline tnm1(T2(x));
-    double inline tnm2(T1(x));
-    double inline tn(tnm1);
+    double tnm1 = T2(x);
+    double tnm2 = T1(x);
+    double tn = tnm1;
 
     for (unsigned int l=3 ; l <= n; l++)
     {

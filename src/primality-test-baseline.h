@@ -1,9 +1,6 @@
 /*
  * By Olexa Bilaniuk
  */
-
-
-
 /* Include Guards */
 #ifndef INTEGERFACTORING_H
 #define INTEGERFACTORING_H
@@ -11,6 +8,7 @@
 
 /* Includes */
 #include <stdio.h>
+#include <stdint.h>
 
 /* Defines */
 

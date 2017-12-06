@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "integer-factoring-baseline.h"
+#include "primality-test-baseline.h"
 
 
 /* Detect when to avoid VLAs. */
