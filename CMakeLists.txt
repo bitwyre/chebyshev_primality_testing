@@ -3,6 +3,12 @@ project (chebyshev)
 
 set(CMAKE_BUILD_TYPE Release)
 
+SET(CMAKE_C_COMPILER /usr/local/bin/gcc-7)
+SET(CMAKE_CXX_COMPILER /usr/local/bin/g++-7)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Bring the headers
 include_directories(include)
 

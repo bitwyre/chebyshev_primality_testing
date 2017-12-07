@@ -3,6 +3,10 @@
 #include <cstdlib>
 #include <cstdint>
 #include <cstdbool>
+#include <iomanip>
+#include <chrono>
+#include <ctime>
+#include <fstream>
 
 #include "primality-test-baseline.h"
 
@@ -12,7 +16,7 @@ typedef struct polynomial
 {
     polynomial(uint64_t r, uint64_t n) : n(n), p(r) {}
     uint64_t          n;
-    vector <uint64_t> p;
+    std::vector <uint64_t> p;
 
     // implementation using Galois field
     // Galoid field (x^r)^2x2
@@ -188,12 +192,42 @@ bool isprime_chebyshev(uint64_t n)
 int main()
 {
     uint64_t end;
-    cout << "State the number for prime checks: " << endl;
-    cin >> end;
+    std::cout << "State the number for prime checks: " << std::endl;
+    std::cin >> end;
+    std::ofstream timingdatalogs;
+    timingdatalogs.open("../results/timingprimes.csv");
+    timingdatalogs << "Number, CPU Timing (microseconds), High Resolution Clock (microseconds)\n";
     for(uint64_t i=2; i <= end; i++) {
+        // record time start
+        auto start = std::chrono::high_resolution_clock::now();
+        std::clock_t c_start = std::clock();
+        // call function
         bool prime = isprime_chebyshev(i);
-        cout << "prime(" << i << ") is " << (prime ? "True" : "False") << endl;
+        // record time end
+		auto finish = std::chrono::high_resolution_clock::now();
+        std::clock_t c_end = std::clock();
+        // calculate time elapsed
+        std::chrono::duration<double> elapsed = finish - start;
+        // display timing results
+        // std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+        // display if i is a prime number and log timing results
+        if (prime == true) {
+            std::cout << i 
+                      << " is " 
+                      << (prime ? "True" : "False") 
+                      << " result obtained in " 
+                      << std::fixed 
+                      << std::setprecision(2)
+                      << std::chrono::duration<double, std::milli>(elapsed).count() 
+                      << " ms. CPU time used:"
+                      << 1000000.0 * (c_end-c_start) / CLOCKS_PER_SEC << " microseconds\n";
+            // log to .csv file
+            timingdatalogs << i << ","
+                           << 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC << ","
+                           << 1000.0 * std::chrono::duration<double, std::milli>(elapsed).count() << ",\n";
+        }
     }
+    timingdatalogs.close();
     return 0;
 }
 
