@@ -74,4 +74,7 @@ dkms.conf
 
 # Executables
 
+build/*
+builds/*
+
 # End of https://www.gitignore.io/api/c,c++
