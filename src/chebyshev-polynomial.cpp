@@ -5,6 +5,8 @@
 #ifndef __CHEBYSHEV_H__
 #define __CHEBYSHEV_H__
 
+#include "chebyshev-polynomial.h"
+
 double T0(const long x)
 {
     return 1.0;

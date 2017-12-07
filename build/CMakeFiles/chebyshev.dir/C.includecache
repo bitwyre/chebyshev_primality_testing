@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/primality-test-baseline.h
+stdio.h
+-
+stdint.h
+-
+
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/primality-test-baseline.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+primality-test-baseline.h
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/primality-test-baseline.h
+

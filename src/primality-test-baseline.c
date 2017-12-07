@@ -23,124 +23,10 @@
 
 
 /**
- * Static Function Prototypes
- */
-
-/**
- * @brief Count trailing zeros of a 64-bit integer.
- *
- * @param [in] n  The integer whose trailing zero count is to be computed.
- * @return     If n != 0, returns trailing zero count; Else returns 64.
- */
-
-static int      gaICtz(uint64_t n);
-
-/**
- * @brief Count leading zeros of a 64-bit integer.
- *
- * @param [in] n  The integer whose leading zero count is to be computed.
- * @return     If n != 0, returns leading zero count; Else returns 64.
- */
-
-static int      gaIClz(uint64_t n);
-
-/**
- * @brief Integer Modular Addition.
- *
- * Computes
- *
- *     $$a+b \pmod m$$
- *
- * efficiently for 64-bit unsigned integers a, b, m.
- */
-
-static uint64_t gaIAddMod    (uint64_t a, uint64_t b, uint64_t m);
-
-/**
- * @brief Integer Modular Subtraction.
- *
- * Computes
- *
- *     $$a-b \pmod m$$
- *
- * efficiently for 64-bit unsigned integers a, b, m.
- */
-
-static uint64_t gaISubMod    (uint64_t a, uint64_t b, uint64_t m);
-
-/**
- * @brief Integer Modular Average.
- *
- * Computes
- *
- *     $$\frac{a+b}{2} \pmod m$$
- *
- * efficiently for 64-bit unsigned integers a, b, m.
- */
-
-static uint64_t gaIAvgMod    (uint64_t a, uint64_t b, uint64_t m);
-
-/**
- * @brief Integer Modular Multiplication.
- *
- * Computes
- *
- *     $$a*b \pmod m$$
- *
- * efficiently for 64-bit unsigned integers a, b, m.
- */
-
-static uint64_t gaIMulMod    (uint64_t a, uint64_t b, uint64_t m);
-
-/**
- * @brief Integer Modular Exponentiation.
- *
- * Computes
- *
- *     $$x^a \pmod m$$
- *
- * efficiently for 64-bit unsigned integers x, a, m.
- */
-
-static uint64_t gaIPowMod    (uint64_t x, uint64_t a, uint64_t m);
-
-/**
- * @brief Jacobi Symbol
- *
- * Computes the Jacobi symbol, notated
- *
- *     $$(a/n)$$
- *
- * efficiently for 64-bit unsigned integers a, n.
- */
-
-static int      gaIJacobiSymbol(uint64_t a, uint64_t n);
-
-/**
- * @brief Strong Fermat base-a probable prime test.
- *
- * @param [in] n  An odd integer >= 3.
- * @param [in] a  A witness integer > 0.
- * @return Non-zero if n is a strong probable prime to base a and zero if n is
- *         composite.
- */
-
-static int      gaIIsPrimeStrongFermat(uint64_t n, uint64_t a);
-
-/**
- * @brief Strong Lucas probable prime test.
- *
- * The function uses Selfridge's Method A for selecting D,P,Q.
- *
- * @param [in] n  An odd integer >= 3.
- * @return Non-zero if n is a strong probable prime and zero if n is composite.
- */
-
-/**
  * Function Definitions
  */
 
-static int      gaICtz       (uint64_t n){
+int      gaICtz       (uint64_t n){
 #if __GNUC__ >= 4
 	return n ? __builtin_ctzll(n) : 64;
 #else
@@ -154,7 +40,7 @@ static int      gaICtz       (uint64_t n){
 #endif
 }
 
-static int      gaIClz       (uint64_t n){
+int      gaIClz       (uint64_t n){
 #if __GNUC__ >= 4
 	return n ? __builtin_clzll(n) : 64;
 #else
@@ -168,7 +54,7 @@ static int      gaIClz       (uint64_t n){
 #endif
 }
 
-static uint64_t gaIAddMod    (uint64_t a, uint64_t b, uint64_t m){
+uint64_t gaIAddMod    (uint64_t a, uint64_t b, uint64_t m){
 	a %= m;
 	b %= m;
 
@@ -179,7 +65,7 @@ static uint64_t gaIAddMod    (uint64_t a, uint64_t b, uint64_t m){
 	}
 }
 
-static uint64_t gaISubMod    (uint64_t a, uint64_t b, uint64_t m){
+uint64_t gaISubMod    (uint64_t a, uint64_t b, uint64_t m){
 	a %= m;
 	b %= m;
 
@@ -190,7 +76,7 @@ static uint64_t gaISubMod    (uint64_t a, uint64_t b, uint64_t m){
 	}
 }
 
-static uint64_t gaIAvgMod    (uint64_t a, uint64_t b, uint64_t m){
+uint64_t gaIAvgMod    (uint64_t a, uint64_t b, uint64_t m){
 	uint64_t s = gaIAddMod(a,b,m);
 
 	if(s&1){
@@ -200,7 +86,7 @@ static uint64_t gaIAvgMod    (uint64_t a, uint64_t b, uint64_t m){
 	}
 }
 
-static uint64_t gaIMulMod    (uint64_t a, uint64_t b, uint64_t m){
+uint64_t gaIMulMod    (uint64_t a, uint64_t b, uint64_t m){
 #if (__GNUC__ >= 4) && defined(__x86_64__) && !defined(__STRICT_ANSI__)
 	uint64_t r;
 
@@ -287,7 +173,7 @@ static uint64_t gaIMulMod    (uint64_t a, uint64_t b, uint64_t m){
 #endif
 }
 
-static uint64_t gaIPowMod    (uint64_t x, uint64_t a, uint64_t m){
+uint64_t gaIPowMod    (uint64_t x, uint64_t a, uint64_t m){
 	uint64_t r;
 
 	/**
@@ -333,7 +219,7 @@ static uint64_t gaIPowMod    (uint64_t x, uint64_t a, uint64_t m){
 	return r;
 }
 
-static int      gaIJacobiSymbol(uint64_t a, uint64_t n){
+int      gaIJacobiSymbol(uint64_t a, uint64_t n){
 	int      s=0;
 	uint64_t e, a1, n1;
 
@@ -366,7 +252,7 @@ static int      gaIJacobiSymbol(uint64_t a, uint64_t n){
 	return s*gaIJacobiSymbol(n1,a1);
 }
 
-static int      gaIIsPrimeStrongFermat(uint64_t n, uint64_t a){
+int      gaIIsPrimeStrongFermat(uint64_t n, uint64_t a){
 	/**
 	 * The Fermat strong probable prime test the Miller-Rabin test relies upon
 	 * uses integer "witnesses" in an attempt at proving the number composite.
@@ -486,7 +372,7 @@ static int      gaIIsPrimeStrongFermat(uint64_t n, uint64_t a){
 	return GA_IS_COMPOSITE;
 }
 
-static int      gaIIsPrimeStrongLucas(uint64_t n){
+int      gaIIsPrimeStrongLucas(uint64_t n){
 	uint64_t Dp, Dm, D, K, U, Ut, V, Vt;
 	int      J, r, i;
 

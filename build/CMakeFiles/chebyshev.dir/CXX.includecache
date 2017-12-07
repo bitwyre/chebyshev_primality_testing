@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/chebyshev-polynomial.h
+vector
+-
+cstdlib
+-
+cstdint
+-
+
+../include/primality-test-baseline.h
+stdio.h
+-
+stdint.h
+-
+
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/chebyshev-polynomial.cpp
+chebyshev-polynomial.h
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/chebyshev-polynomial.h
+
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/chebyshev-primality-test.cpp
+iostream
+-
+vector
+-
+cstdlib
+-
+cstdint
+-
+cstdbool
+-
+primality-test-baseline.h
+/Users/dendisuhubdy/research/Chebyshev-primality-test/src/primality-test-baseline.h
+
