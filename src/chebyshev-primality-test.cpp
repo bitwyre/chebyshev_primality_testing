@@ -187,7 +187,7 @@ bool isprime_chebyshev(uint64_t n)
 
 int main()
 {
-    uint64_t n = 179;
+    uint64_t n = 17;
     bool prime = isprime_chebyshev(n);
     cout << (prime ? "True" : "False") << endl;
     return 0;

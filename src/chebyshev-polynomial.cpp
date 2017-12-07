@@ -1,5 +1,6 @@
 /* 
  * By Dendi Suhubdy, 2017
+ * We don't need this for the conjecture testing
  */
 
 #ifndef __CHEBYSHEV_H__
