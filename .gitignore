@@ -76,5 +76,7 @@ dkms.conf
 
 build/*
 builds/*
-
+primes/*
+cmake/*
+results/*
 # End of https://www.gitignore.io/api/c,c++

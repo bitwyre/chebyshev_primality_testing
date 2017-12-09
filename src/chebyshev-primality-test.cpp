@@ -203,6 +203,7 @@ int main()
         std::clock_t c_start = std::clock();
         // call function
         bool prime = isprime_chebyshev(i);
+        bool sanity_test = gaIIsPrime(i);
         // record time end
 		auto finish = std::chrono::high_resolution_clock::now();
         std::clock_t c_end = std::clock();
@@ -211,6 +212,13 @@ int main()
         // display timing results
         // std::cout << "Elapsed time: " << elapsed.count() << " s\n";
         // display if i is a prime number and log timing results
+        if (sanity_test != prime) {
+            timingdatalogs << i << ","
+                           << 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC << ","
+                           << 1000.0 * std::chrono::duration<double, std::milli>(elapsed).count() << "," << ",counterexample\n";
+            break;
+        }
+
         if (prime == true) {
             std::cout << i 
                       << " is " 
