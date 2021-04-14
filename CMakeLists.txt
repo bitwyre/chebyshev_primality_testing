@@ -17,9 +17,12 @@ endif()
 include_directories(include)
 
 # Adding all sources
-file(GLOB SOURCES_C "src/*.c")
-file(GLOB SOURCES_CPP "src/*.cpp")
+set(SOURCES ${CMAKE_SOURCE_DIR}/src/chebyshev-polynomial.cpp
+            ${CMAKE_SOURCE_DIR}/include/chebyshev-polynomial.h
+            ${CMAKE_SOURCE_DIR}/include/benchmark.h
+            ${CMAKE_SOURCE_DIR}/src/chebyshev-primality-test.cpp
+            ${CMAKE_SOURCE_DIR}/src/primality-test-baseline.c
+            ${CMAKE_SOURCE_DIR}/include/primality-test-baseline.h)
 
-add_executable (chebyshev ${SOURCES_C} ${SOURCES_CPP})
-
-install(TARGETS chebyshev DESTINATION /usr/local/bin)
+add_executable(chebyshev ${SOURCES})
+target_link_libraries(chebyshev ${CMAKE_SOURCE_DIR}/libbenchmark.a pthread)
