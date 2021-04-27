@@ -1,14 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
-#include <cstdint>
-#include <cstdbool>
-#include <iomanip>
-#include <chrono>
-#include <ctime>
-#include <fstream>
-
-#include "primality-test-baseline.h"
+#include "../include/benchmark.h"
+#include "../include/primality-test-baseline.h"
 
 using namespace std;
 
@@ -188,54 +181,19 @@ bool isprime_chebyshev(uint64_t n)
     return true;
 }
 
+static void BM_chebyshev(benchmark::State& state) {
 
-int main()
-{
-    uint64_t end;
-    std::cout << "State the number for prime checks: " << std::endl;
-    std::cin >> end;
-    std::ofstream timingdatalogs;
-    timingdatalogs.open("../results/timingprimes.csv");
-    timingdatalogs << "Number, CPU Timing (microseconds), High Resolution Clock (microseconds)\n";
-    for(uint64_t i=2; i <= end; i++) {
-        // record time start
-        auto start = std::chrono::high_resolution_clock::now();
-        std::clock_t c_start = std::clock();
-        // call function
-        bool prime = isprime_chebyshev(i);
-        bool sanity_test = gaIIsPrime(i);
-        // record time end
-		auto finish = std::chrono::high_resolution_clock::now();
-        std::clock_t c_end = std::clock();
-        // calculate time elapsed
-        std::chrono::duration<double> elapsed = finish - start;
-        // display timing results
-        // std::cout << "Elapsed time: " << elapsed.count() << " s\n";
-        // display if i is a prime number and log timing results
-        if (sanity_test != prime) {
-            timingdatalogs << i << ","
-                           << 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC << ","
-                           << 1000.0 * std::chrono::duration<double, std::milli>(elapsed).count() << "," << ",counterexample\n";
-            break;
-        }
-
-        if (prime == true) {
-            std::cout << i 
-                      << " is " 
-                      << (prime ? "True" : "False") 
-                      << " result obtained in " 
-                      << std::fixed 
-                      << std::setprecision(2)
-                      << std::chrono::duration<double, std::milli>(elapsed).count() 
-                      << " ms. CPU time used:"
-                      << 1000000.0 * (c_end-c_start) / CLOCKS_PER_SEC << " microseconds\n";
-            // log to .csv file
-            timingdatalogs << i << ","
-                           << 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC << ","
-                           << 1000.0 * std::chrono::duration<double, std::milli>(elapsed).count() << ",\n";
-        }
+  for (auto _ : state) {
+    bool prime = isprime_chebyshev(state.range(0));
+    bool sanity_test = gaIIsPrime(state.range(0));
+    state.counters["IS PRIME"] = prime; 
+    if (sanity_test != prime) {
+        std::cout << "Sanity check failed for " << state.range(0) << "\n";
+        break;
     }
-    timingdatalogs.close();
-    return 0;
+  }
+  state.SetComplexityN(state.range(0));
 }
 
+BENCHMARK(BM_chebyshev)->DenseRange(1, std::stol(std::getenv("MAX_INT_CHEBYSHEV") ) )->Complexity();
+BENCHMARK_MAIN();
